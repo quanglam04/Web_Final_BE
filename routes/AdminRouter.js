@@ -4,7 +4,6 @@ const Photo = require("../db/photoModel");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
-  console.log("Call APi LOGIN");
   const { login_name } = req.body;
   const user = await User.findOne({ login_name: login_name });
   try {
@@ -18,8 +17,6 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  console.log("call api logout");
-
   req.session.destroy((err) => {
     if (err) {
       res.status(500).json({ error: "Logout failed" });

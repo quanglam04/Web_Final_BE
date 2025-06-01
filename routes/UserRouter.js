@@ -5,7 +5,6 @@ const router = express.Router();
 
 // api lất tất cả danh sách người dùng
 router.get("/list", async (request, response) => {
-  console.log(request.session);
   try {
     if (request.session.userId) {
       const listUser = await User.find({});
@@ -16,8 +15,6 @@ router.get("/list", async (request, response) => {
       }));
       response.status(200).json(listUserDTO);
     } else {
-      console.log("Chưa đăng nhập");
-
       response.status(401).json({ message: "Vui lòng đăng nhập" });
     }
   } catch (error) {
@@ -41,7 +38,6 @@ router.get("/:id", async (request, response) => {
 
 // api đếm số lượng ảnh của người có ID
 router.get("/numberOfPhotos/:id", async (request, response) => {
-  console.log("Fetch Number Of Photos");
   const userId = request.params.id;
   try {
     if (request.session.userId) {
@@ -66,7 +62,6 @@ router.get("/numberOfPhotos/:id", async (request, response) => {
 
 // api trả về các bức ảnh của người dùng có ID = id
 router.get("/photosOfUser/:id", async (request, response) => {
-  console.log("Call APi get photosOfUser");
   try {
     if (request.session.userId) {
       const listPhotoByUserID = await Photo.find({
