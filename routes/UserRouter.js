@@ -15,24 +15,43 @@ router.get("/list", async (request, response) => {
       }));
       response.status(200).json(listUserDTO);
     } else {
-      response.status(401).json({ message: "Vui lòng đăng nhập" });
+      response.status(401).json({ message: "Vui lòng đăng nhập 1" });
     }
   } catch (error) {
     response.status(500).json({ error });
   }
 });
 
+router.get("/me", async (req, res) => {
+  console.log(req.session.userId);
+  try {
+    if (req.session.userId) {
+      const user = await User.findOne({ _id: req.session.userId });
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(401).json({ message: "User not found" });
+      }
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
+    }
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // api xem chi tiết thông tin người dùng
 router.get("/:id", async (request, response) => {
+  const user = await User.findOne({ _id: request.session.userId });
   try {
     if (request.session.userId) {
       const userDetail = await User.findById(request.params.id);
       response.status(200).json(userDetail);
     } else {
-      response.status(401).json({ message: "Vui lòng đăng nhập" });
+      response.status(401).json({ message: "Vui lòng đăng nhập 2" });
     }
   } catch (error) {
-    response.status(400).json("Tham số ID không hợp lệ");
+    response.status(4400).json("Tham số ID không hợp lệ");
   }
 });
 
@@ -51,7 +70,7 @@ router.get("/numberOfPhotos/:id", async (request, response) => {
       });
       response.status(200).json(numberOfPhoto);
     } else {
-      response.status(401).json({ message: "Vui lòng đăng nhập" });
+      response.status(401).json({ message: "Vui lòng đăng nhập 3" });
     }
   } catch (error) {
     response.status(400).json("Tham số ID không hợp lệ");
@@ -98,11 +117,13 @@ router.get("/photosOfUser/:id", async (request, response) => {
 
       response.status(200).json(result);
     } else {
-      response.status(401).json({ message: "Vui lòng đăng nhập" });
+      response.status(401).json({ message: "Vui lòng đăng nhập 4" });
     }
   } catch (error) {
     response.status(500).json({ error });
   }
 });
+
+// lấy thông tin user từ userId trong cookies
 
 module.exports = router;

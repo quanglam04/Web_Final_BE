@@ -11,11 +11,6 @@ require("dotenv").config();
 // base API = http://localhost:8081
 dbConnect();
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-};
-app.use(cors(corsOptions));
 app.use(
   session({
     secret: "VHJpbmggUXVhbmcgTGFt",
@@ -29,6 +24,11 @@ app.use(
   })
 );
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);
