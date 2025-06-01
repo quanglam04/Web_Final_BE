@@ -1,15 +1,45 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const cors = require("cors");
 const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const AdminRoutes = require("./routes/AdminRouter");
+require("dotenv").config();
 // const CommentRouter = require("./routes/CommentRouter");
-// base API = https://2x5yr7-8081.csb.app
+// base API = http://localhost:8081
 dbConnect();
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(
+  session({
+    secret: "VHJpbmggUXVhbmcgTGFt",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
+
+// app.use((req, res, next) => {
+//   const publicPaths = ["/api/admin/login", "/api/admin/logout", "/"];
+//   if (publicPaths.includes(req.path)) {
+//     return next();
+//   }
+//   if (req.session && req.session.userId) {
+//     next();
+//   }
+//   res.status(401).json({ message: "Unauthorized. Please login." });
+// });
+
 app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);

@@ -15,20 +15,20 @@ router.get("/list", async (request, response) => {
       first_name: user.first_name,
       last_name: user.last_name,
     }));
-    response.status(200).send(listUserDTO);
+    response.status(200).json(listUserDTO);
   } catch (error) {
-    response.status(500).send({ error });
+    response.status(500).json({ error });
   }
 });
 
 // api xem chi tiết thông tin người dùng
 router.get("/:id", async (request, response) => {
-  console.log("Fetch User Detail");
+  console.log(request.session.userId);
   try {
     const userDetail = await User.findById(request.params.id);
-    response.status(200).send(userDetail);
+    response.status(200).json(userDetail);
   } catch (error) {
-    response.status(400).send({ meesage: "Tham số ID không hợp lệ" });
+    response.status(400).json("Tham số ID không hợp lệ");
   }
 });
 
@@ -46,9 +46,9 @@ router.get("/numberOfPhotos/:id", async (request, response) => {
       }
     });
 
-    response.status(200).send({ numberOfPhoto });
+    response.status(200).json(numberOfPhoto);
   } catch (error) {
-    response.status(400).send({ message: "Tham số ID không hợp lệ" });
+    response.status(400).json("Tham số ID không hợp lệ");
   }
 });
 
@@ -90,7 +90,7 @@ router.get("/photosOfUser/:id", async (request, response) => {
 
     response.status(200).json(result);
   } catch (error) {
-    response.status(500).send({ error });
+    response.status(500).json({ error });
   }
 });
 
