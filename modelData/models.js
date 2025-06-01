@@ -59,6 +59,7 @@ const im = {
   description: "Should've stayed in the car.",
   occupation: "Mathematician",
   login_name: "im",
+  pass_word: "123456",
 };
 const er = {
   _id: "57231f1a30e4351f4e9f4bd8",
@@ -68,6 +69,7 @@ const er = {
   description: "Lvl 6 rating. Pilot.",
   occupation: "Warrant Officer",
   login_name: "er",
+  pass_word: "123456",
 };
 const pt = {
   _id: "57231f1a30e4351f4e9f4bd9",
@@ -81,6 +83,7 @@ const pt = {
     "all shall fade... all... shall... fade... ",
   occupation: "Thain",
   login_name: "pt",
+  pass_word: "123456",
 };
 const rk = {
   _id: "57231f1a30e4351f4e9f4bda",
@@ -90,6 +93,7 @@ const rk = {
   description: "Excited to be here!",
   occupation: "Rebel",
   login_name: "rk",
+  pass_word: "123456",
 };
 const al = {
   _id: "57231f1a30e4351f4e9f4bdb",
@@ -99,6 +103,7 @@ const al = {
   description: "Witch",
   occupation: "Animal Control",
   login_name: "al",
+  pass_word: "123456",
 };
 const jo = {
   _id: "57231f1a30e4351f4e9f4bdc",
@@ -108,6 +113,7 @@ const jo = {
   description: "<i>CS142!</i>",
   occupation: "Professor",
   login_name: "jo",
+  pass_word: "123456",
 };
 
 const users = [im, er, pt, rk, al, jo];

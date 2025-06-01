@@ -4,8 +4,11 @@ const Photo = require("../db/photoModel");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
-  const { login_name } = req.body;
-  const user = await User.findOne({ login_name: login_name });
+  const { login_name, pass_word } = req.body;
+  const user = await User.findOne({
+    login_name: login_name,
+    pass_word: pass_word,
+  });
   try {
     if (user) {
       req.session.userId = user._id;
