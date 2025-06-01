@@ -30,12 +30,4 @@ router.post("/logout", async (req, res) => {
   });
 });
 
-router.get("/test-session", (req, res) => {
-  console.log("Session:", req.session);
-  if (req.session.userId) {
-    res.json({ login: true, userId: req.session.userId });
-  } else {
-    res.json({ login: false });
-  }
-});
 module.exports = router;
