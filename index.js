@@ -29,17 +29,6 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   const publicPaths = ["/api/admin/login", "/api/admin/logout", "/"];
-//   if (publicPaths.includes(req.path)) {
-//     return next();
-//   }
-//   if (req.session && req.session.userId) {
-//     next();
-//   }
-//   res.status(401).json({ message: "Unauthorized. Please login." });
-// });
-
 app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);
