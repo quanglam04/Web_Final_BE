@@ -46,8 +46,6 @@ router.post("/commentsOfPhoto/:photo_id", async (request, response) => {
   }
 });
 
-// lấy tất cả bình luận hiện có
-
 // upload ảnh
 router.post("/new", upload.single("image"), async (req, res) => {
   if (req.session.userId) {

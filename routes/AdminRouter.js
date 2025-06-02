@@ -3,6 +3,7 @@ const User = require("../db/userModel");
 const Photo = require("../db/photoModel");
 const router = express.Router();
 
+// api login
 router.post("/login", async (req, res) => {
   const { login_name, pass_word } = req.body;
   const user = await User.findOne({
@@ -19,6 +20,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// api register
 router.post("/register", async (req, res) => {
   const user = {
     login_name: req.body.login_name,
@@ -33,12 +35,7 @@ router.post("/register", async (req, res) => {
     const userInDb = await User.findOne({
       login_name: user.login_name,
     });
-    console.log("login_name: ", user.login_name);
-
     if (userInDb) {
-      // bị trùng
-      console.log(userInDb);
-
       res.status(400).json({ message: "User đã tồn tại trong hệ thống" });
     } else {
       const newUser = new User(user);
@@ -58,6 +55,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// logout
 router.post("/logout", async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
