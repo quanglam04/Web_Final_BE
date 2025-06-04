@@ -6,32 +6,20 @@ const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const AdminRoutes = require("./routes/AdminRouter");
+const authenticateToken = require("./middleware/authenticateToken");
 require("dotenv").config();
-// const CommentRouter = require("./routes/CommentRouter");
-// base API = http://localhost:8081
+
 dbConnect();
 
-app.use(
-  session({
-    secret: "VHJpbmggUXVhbmcgTGFt",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-  })
-);
-
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: `${process.env.ALLOW_ORIGIN}`,
   credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/api/user", UserRouter);
-app.use("/api/photo", PhotoRouter);
+
+app.use("/api/user", authenticateToken, UserRouter);
+app.use("/api/photo", authenticateToken, PhotoRouter);
 app.use("/api/admin", AdminRoutes);
 
 app.get("/", (request, response) => {

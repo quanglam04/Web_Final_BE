@@ -2,21 +2,42 @@ const express = require("express");
 const User = require("../db/userModel");
 const Photo = require("../db/photoModel");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 // api login
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   const { login_name, pass_word } = req.body;
-  const user = await User.findOne({
-    login_name: login_name,
-    pass_word: pass_word,
-  });
+
   try {
+    const user = await User.findOne({
+      login_name: login_name,
+      pass_word: pass_word,
+    });
+
     if (user) {
-      req.session.userId = user._id;
-      res.status(200).json(user);
-    } else res.status(401).json({ message: "Invalid credentials" });
+      const token = jwt.sign(
+        {
+          userId: user._id,
+          login_name: user.login_name,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "24h" }
+      );
+
+      res.status(200).json({
+        message: "Login successful",
+        token: token,
+        user: {
+          _id: user._id,
+          login_name: user.login_name,
+          full_name: `${user.first_name} ${user.last_name}`,
+        },
+      });
+    } else {
+      res.status(401).json({ message: "Invalid credentials" });
+    }
   } catch (e) {
-    res.status(500).json({ error: e });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -57,14 +78,7 @@ router.post("/register", async (req, res) => {
 
 // logout
 router.post("/logout", async (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      res.status(500).json({ error: "Logout failed" });
-    } else {
-      res.clearCookie("connect.sid");
-      res.status(200).json({ message: "Logged out" });
-    }
-  });
+  res.status(200).json({ message: "Logout successful" });
 });
 
 module.exports = router;
