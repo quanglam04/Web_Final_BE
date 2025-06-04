@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/api/user", authenticateToken, UserRouter);
 app.use("/api/photo", authenticateToken, PhotoRouter);
 app.use("/api/admin", AdminRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (request, response) => {
   response.send({ message: "Hello from photo-sharing app API!" });

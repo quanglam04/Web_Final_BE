@@ -21,9 +21,10 @@ router.get("/list", async (request, response) => {
 
 router.get("/me", authenticateToken, async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.user.userId }).select(
+    var user = await User.findOne({ _id: req.user.userId }).select(
       "-pass_word"
     );
+    user = { ...user, full_name: `${user.first_name} ${user.last_name}` };
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });

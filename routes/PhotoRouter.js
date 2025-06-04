@@ -1,20 +1,18 @@
 const express = require("express");
-const multer = require("multer");
 const path = require("path");
+const multer = require("multer");
 const fs = require("fs");
 const Photo = require("../db/photoModel");
 const router = express.Router();
 
-// Đường dẫn tới thư mục images trong FE
-const feImagePath = path.join(__dirname, "../../FE/public/images");
+const uploadPath = path.join(__dirname, "../uploads");
 
-// Cấu hình multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, feImagePath); // Ghi trực tiếp vào FE/src/images
+    cb(null, uploadPath); // ghi file vào /uploads
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "_" + file.originalname); // Tạo tên file duy nhất
+    cb(null, Date.now() + "_" + file.originalname);
   },
 });
 
